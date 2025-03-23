@@ -1,0 +1,43 @@
+import java.util.*;
+
+public class SmartClass {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int[][] powerreading = new int[5][4];  
+        System.out.println("Enter power readings for 5 sensors over 4 time intervals:");
+        for (int time = 0; time < 4; time++) {
+            for (int sensor = 0; sensor < 5; sensor++) {
+                int value = sc.nextInt();
+                if (value < 10 || value > 200) {
+                    System.out.println("INVALID INPUT");
+                    sc.close();  
+                    return;
+                }
+                powerreading[sensor][time] = value;  
+            }
+        }
+        sc.close();  
+        int maxAvg = 0;  
+        int sensormaxavg = -1;  
+        boolean isOptimal = true;
+        for (int sensor = 0; sensor < 5; sensor++) {
+            int sum = 0;
+            for (int time = 0; time < 4; time++) {
+                sum += powerreading[sensor][time];  
+            }
+            int avg = (int) Math.round(sum / 4.0f);  
+            if (avg >= 50) {
+                isOptimal = false;  
+            }
+            if (avg > maxAvg) {
+                maxAvg = avg;
+                sensormaxavg = sensor + 1;  
+            }
+        }
+        if (isOptimal) {
+            System.out.println("Energy consumption is optimal.");
+        } else {
+            System.out.println("Sensor Number : " + sensormaxavg);  
+        }
+    }
+}
