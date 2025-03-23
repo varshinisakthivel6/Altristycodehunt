@@ -1,0 +1,55 @@
+import java.util.*;
+
+public class wt {
+    public static int minswap(String A, String B) {
+        int N = A.length();
+        char[] aSorted = A.toCharArray();
+        char[] bSorted = B.toCharArray();
+        Arrays.sort(aSorted);
+        Arrays.sort(bSorted);
+        if (!Arrays.equals(aSorted, bSorted)) {
+            return -1; 
+        }
+        char[] arr = A.toCharArray();  
+        int swap = 0;
+        for (int i = 0; i < N; i++) {
+            if (arr[i] == B.charAt(i)) {
+                continue; 
+            }
+            int j = i;
+            while (arr[j] != B.charAt(i)) {
+                j++;
+            }
+            while (j > i) {
+                char temp = arr[j];
+                arr[j] = arr[j - 1];
+                arr[j - 1] = temp;
+                swap++;  
+                j--;
+            }
+        }
+        
+        return swap;
+    }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter the length of words: ");
+        int N = sc.nextInt();
+        sc.nextLine();
+        
+        System.out.print("Enter the original word: ");
+        String A = sc.nextLine();
+        System.out.print("Enter the target word: ");
+        String B = sc.nextLine();
+        
+        if (A.length() != N || B.length() != N) {
+            System.out.println("Error: Word lengths do not match the given N.");
+            sc.close();
+            return;
+        }
+        int result = minswap(A, B); 
+        System.out.println("Minimum swaps required: " + result);
+        
+        sc.close();
+    }
+}
