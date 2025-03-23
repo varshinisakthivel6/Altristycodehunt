@@ -1,0 +1,39 @@
+import java.util.Scanner;
+public class Treasure {
+    public static int[] countT(String s, int[][] q) {
+        int n = s.length();
+        int[] prefix = new int[n + 1];
+        for (int i = 1; i <= n; i++) {
+            prefix[i] = prefix[i - 1] + (s.charAt(i - 1) == 'T' ? 1 : 0);
+        }
+        int[] result = new int[q.length];
+        for (int i = 0; i < q.length; i++) {
+            int start = q[i][0];
+            int end = q[i][1];
+            result[i] = prefix[end] - prefix[start - 1];
+        }
+        return result;
+    }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter the path (string of 'T' and '.'): ");
+        String s = sc.nextLine();
+        System.out.print("Enter the number of queries: ");
+        int n = sc.nextInt();
+        sc.nextLine(); 
+
+        int[][] queries = new int[n][2];
+        System.out.println("Enter the queries (pairs of start and end indices):");
+        for (int i = 0; i < n; i++) {
+            System.out.print("Enter start index and end index for query " + (i + 1) + ": ");
+            queries[i][0] = sc.nextInt();
+            queries[i][1] = sc.nextInt();
+        }
+        int[] results = countT(s, queries);  
+        System.out.println("Results for each query:");
+        for (int res : results) {
+            System.out.println(res);
+        }
+        sc.close();
+    }
+}
