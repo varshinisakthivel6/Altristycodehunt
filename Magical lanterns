@@ -1,0 +1,32 @@
+import java.util.*;
+public class lb{
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter the size of the subarray (k): ");
+        int k = sc.nextInt();
+        System.out.println("Enter the number of lantern brightness levels (n): ");
+        int n = sc.nextInt();
+        int[] bl = new int[n];
+        System.out.println("Enter the brightness levels: ");
+        for (int i = 0; i < n; i++) {
+            bl[i] = sc.nextInt();
+        }
+        Deque<Integer> deque = new LinkedList<>();
+        List<Integer> maxblist = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            if (!deque.isEmpty() && deque.peekFirst() < i - k + 1) {
+                deque.pollFirst();
+            }
+            while (!deque.isEmpty() && bl[deque.peekLast()] <= bl[i]) {
+                deque.pollLast();
+            }
+            deque.offerLast(i);
+            if (i >= k - 1) {
+                maxblist.add(bl[deque.peekFirst()]);
+            }
+        }
+        int minimumOfMaxBrightness = Collections.min(maxblist);
+        System.out.println("The minimum of the maximum brightness levels in all subarrays of size " + k + " is: " + minimumOfMaxBrightness);
+        sc.close();
+    }
+}
